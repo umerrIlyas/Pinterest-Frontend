@@ -4,7 +4,7 @@
       Upload your Image
     </h1>
 
-    <form class="w-3/12 mt-24 mx-auto" @submit.prevent="onSubmit">
+    <form class="md:w-3/12 mt-24 mx-auto" @submit.prevent="onSubmit">
       <Input
         :text="'Upload Image'"
         :type="'file'"
@@ -51,25 +51,29 @@ export default {
   methods: {
     onSubmit() {
       if (this.title && this.title && this.file) {
-        let formData = new FormData();
-        formData.append("file", this.file);
-        formData.append("title", this.title);
-        formData.append("description", this.description);
+        if (this.$auth.loggedIn) {
+          let formData = new FormData();
+          formData.append("file", this.file);
+          formData.append("title", this.title);
+          formData.append("description", this.description);
 
-        this.$axios
-          .post("/posts", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then((response) => {
-            console.log(response);
-            this.$toast.success(response.data.message);
-          })
-          .catch((error) => {
-            console.log(error);
-            this.$toast.error(error.response.data.message);
-          });
+          this.$axios
+            .post("/posts", formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            })
+            .then((response) => {
+              console.log(response);
+              this.$toast.success(response.data.message);
+            })
+            .catch((error) => {
+              console.log(error);
+              this.$toast.error(error.response.data.message);
+            });
+        } else {
+          this.$toast.error("Login First.");
+        }
       } else {
         this.$toast.error("Not all amendatory filled.");
       }

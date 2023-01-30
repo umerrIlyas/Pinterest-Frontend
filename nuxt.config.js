@@ -18,7 +18,7 @@ export default {
   css: ["@/assets/css/tailwind.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: "~/plugins/modal.js", mode: "client" }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -30,10 +30,24 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/axios", "@nuxtjs/toast"],
+  modules: ["@nuxtjs/axios", "@nuxtjs/toast", "@nuxtjs/auth-next"],
 
   axios: {
-    baseURL: process.env.baseURL, // Used as fallback if no runtime config is provided
+    baseURL: process.env.baseURL,
+  },
+
+  auth: {
+    strategies: {
+      laravelSanctum: {
+        provider: "laravel/sanctum",
+        url: "http://localhost:8000",
+        endpoints: {
+          login: {
+            url: "/api/login",
+          },
+        },
+      },
+    },
   },
 
   toast: {
@@ -43,6 +57,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: ["defu"],
     postcss: {
       plugins: {
         tailwindcss: {},
