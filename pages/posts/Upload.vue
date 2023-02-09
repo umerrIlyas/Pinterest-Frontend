@@ -51,29 +51,25 @@ export default {
   methods: {
     onSubmit() {
       if (this.title && this.title && this.file) {
-        if (this.$auth.loggedIn) {
-          let formData = new FormData();
-          formData.append("file", this.file);
-          formData.append("title", this.title);
-          formData.append("description", this.description);
+        let formData = new FormData();
+        formData.append("file", this.file);
+        formData.append("title", this.title);
+        formData.append("description", this.description);
 
-          this.$axios
-            .post("/posts", formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            })
-            .then((response) => {
-              console.log(response);
-              this.$toast.success(response.data.message);
-            })
-            .catch((error) => {
-              console.log(error);
-              this.$toast.error(error.response.data.message);
-            });
-        } else {
-          this.$toast.error("Login First.");
-        }
+        this.$axios
+          .post("/posts", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            this.$toast.success(response.data.message);
+          })
+          .catch((error) => {
+            console.log(error);
+            this.$toast.error(error.response.data.message);
+          });
       } else {
         this.$toast.error("Not all amendatory filled.");
       }

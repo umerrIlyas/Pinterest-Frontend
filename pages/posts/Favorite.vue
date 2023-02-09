@@ -31,8 +31,8 @@ export default {
   },
 
   mounted() {
-    if (this.$auth.loggedIn) this.getFavoritePosts();
-    else this.$toast.error("Login First");
+    // if (this.$auth.loggedIn) this.getFavoritePosts();
+    // else this.$toast.error("Login First");
   },
 
   methods: {
